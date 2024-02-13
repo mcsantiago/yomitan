@@ -135,6 +135,11 @@ export class DictionaryImportController {
     }
 
     /**
+     */
+    async _searchDictionaries() {
+    }
+
+    /**
      * @param {File[]} files
      */
     async _importDictionaries(files) {

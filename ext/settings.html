@@ -2449,49 +2449,100 @@
         </div>
     </div>
     <div class="modal-body">
-        <div class="settings-item">
-            <div class="settings-item-inner">
-                <div class="settings-item-left">
-                    <div class="settings-item-label">
-                        Enable support for prefix wildcard searches
-                        <a tabindex="0" class="more-toggle more-only" data-parent-distance="4">(?)</a>
+        <div class="tabs-container">
+            <div class="tabs">
+                <label class="tab">
+                    <input type="radio" name="dictionary-card-primary-type" data-value="dictionary-installed" data-anki-card-menu="dictionary-card-installed-field-menu" checked>
+                    <div class="tab-inner"><span class="tab-label">Installed</span></div>
+                </label>
+                <label class="tab">
+                    <input type="radio" name="dictionary-card-primary-type" data-value="dictionary-search" data-anki-card-menu="dictionary-card-search-field-menu">
+                    <div class="tab-inner"><span class="tab-label">Search Dictionaries</span></div>
+                </label>
+            </div>
+        </div>
+        <div class="modal-separator-line"></div>
+        <div id="content-installed" class="tab-content" hidden>
+            <div class="settings-item">
+                <div class="settings-item-inner">
+                    <div class="settings-item-left">
+                        <div class="settings-item-label">
+                            Enable support for prefix wildcard searches
+                            <a tabindex="0" class="more-toggle more-only" data-parent-distance="4">(?)</a>
+                        </div>
+                    </div>
+                    <div class="settings-item-right">
+                        <label class="toggle"><input type="checkbox" data-setting="global.database.prefixWildcardsSupported" data-scope="global"><span class="toggle-body"><span class="toggle-track"></span><span class="toggle-knob"></span></span></label>
                     </div>
                 </div>
-                <div class="settings-item-right">
-                    <label class="toggle"><input type="checkbox" data-setting="global.database.prefixWildcardsSupported" data-scope="global"><span class="toggle-body"><span class="toggle-track"></span><span class="toggle-knob"></span></span></label>
+                <div class="settings-item-children more" hidden>
+                    <p>
+                        In order for dictionaries to support searches using prefix wildcards on the search page,
+                        some additional data must be stored in the database.
+                        Enabling this option will include this extra data for any new dictionaries that are imported.
+                    </p>
+                    <p class="warning-text">
+                        This option will not change any dictionaries that are already imported;
+                        they must be re-imported for the option to take effect.
+                    </p>
+                    <p>
+                        <a tabindex="0" class="more-toggle" data-parent-distance="3">Hide&hellip;</a>
+                    </p>
                 </div>
             </div>
-            <div class="settings-item-children more" hidden>
-                <p>
-                    In order for dictionaries to support searches using prefix wildcards on the search page,
-                    some additional data must be stored in the database.
-                    Enabling this option will include this extra data for any new dictionaries that are imported.
-                </p>
-                <p class="warning-text">
-                    This option will not change any dictionaries that are already imported;
-                    they must be re-imported for the option to take effect.
-                </p>
-                <p>
-                    <a tabindex="0" class="more-toggle" data-parent-distance="3">Hide&hellip;</a>
-                </p>
+
+            <div class="warning-text margin-above no-dictionaries-installed-warning" hidden>
+                No dictionaries have been installed yet.
+                Visit the <a href="https://github.com/themoeway/yomitan/blob/master/docs/dictionaries.md#dictionaries" target="_blank" rel="noopener noreferrer">Yomitan homepage</a>
+                for a list of free dictionaries or click the <em>Import</em> button below to select a dictionary file to import.
+            </div>
+            <div id="dictionary-error" class="danger-text margin-above" hidden></div>
+            <div id="dictionary-list" class="dictionary-list generic-list" data-count="0">
+                <div class="dictionary-item-top"></div>
+                <label class="dictionary-item-top toggle dictionary-item-enabled-toggle-container"><input type="checkbox" id="all-dictionaries-enabled"><span class="toggle-body"><span class="toggle-track"></span><span class="toggle-knob"></span></span></label>
+                <div class="dictionary-item-top dictionary-item-title-container">All</div>
+                <div class="dictionary-item-top">Priority</div>
+                <div class="dictionary-item-top dictionary-item-button-height"></div>
+            </div>
+
+            <div hidden><input type="file" id="dictionary-import-file-input" accept=".zip,application/zip" multiple></div>
+        </div>
+        <div id="content-search-dictionaries" class="tab-content">
+            <div class="settings-item">
+                <div class="settings-item-inner">
+                    <div class="settings-item-left">
+                        <div class="settings-item-label">
+                            Search for dictionaries
+                            <a tabindex="0" class="more-toggle more-only" data-parent-distance="4">(?)</a>
+                        </div>
+                    </div>
+                    <div class="settings-item-right">
+                        <input type="text" class="search-field" id="dictionary-search-field" placeholder="Search for dictionaries">
+                    </div>
+                </div>
+            </div>
+            <div class="settings-item">
+                <div class="extension-item">
+                    <div class="extension-item-header">
+                        <div class="extension-item-header-left">
+                            <h3 class="extension-name">JMDict</h3>
+                            <span class="extension-author">by stephenmk</span>
+                        </div>
+                        <div class="extension-item-header-right">
+                            <button type="button" class="low-emphasis dictionary-database-mutating-input" id="dictionary-import-file-button">Download</button>
+                        </div>
+                    </div>
+                    <div class="extension-item-body">
+                        <div class="extension-metadata">
+                            <span>Version: <strong>v4.3-3</strong></span>
+                            <span>Size: <strong>27.63 MB</strong></span>
+                            <span>Download Count: <strong>57</strong></span>
+                            <span>Updated: <strong>2024-02-12</strong></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="warning-text margin-above no-dictionaries-installed-warning" hidden>
-            No dictionaries have been installed yet.
-            Visit the <a href="https://github.com/themoeway/yomitan/blob/master/docs/dictionaries.md#dictionaries" target="_blank" rel="noopener noreferrer">Yomitan homepage</a>
-            for a list of free dictionaries or click the <em>Import</em> button below to select a dictionary file to import.
-        </div>
-        <div id="dictionary-error" class="danger-text margin-above" hidden></div>
-        <div id="dictionary-list" class="dictionary-list generic-list" data-count="0">
-            <div class="dictionary-item-top"></div>
-            <label class="dictionary-item-top toggle dictionary-item-enabled-toggle-container"><input type="checkbox" id="all-dictionaries-enabled"><span class="toggle-body"><span class="toggle-track"></span><span class="toggle-knob"></span></span></label>
-            <div class="dictionary-item-top dictionary-item-title-container">All</div>
-            <div class="dictionary-item-top">Priority</div>
-            <div class="dictionary-item-top dictionary-item-button-height"></div>
-        </div>
-
-        <div hidden><input type="file" id="dictionary-import-file-input" accept=".zip,application/zip" multiple></div>
     </div>
     <div class="modal-body-addon dictionary-delete-progress" hidden>
         <div class="progress-labels"><div class="progress-info"></div><div class="progress-status"></div></div>
@@ -2504,10 +2555,23 @@
     <div class="modal-footer">
         <button type="button" class="low-emphasis danger dictionary-database-mutating-input" id="dictionary-delete-all-button">Delete All</button>
         <button type="button" class="low-emphasis dictionary-database-mutating-input" id="dictionary-check-integrity">Check Integrity</button>
-        <button type="button" class="low-emphasis dictionary-database-mutating-input" id="dictionary-import-file-button">Import</button>
+        <button type="button" class="low-emphasis dictionary-database-mutating-input" id="dictionary-import-file-button">Import File</button>
         <button type="button" data-modal-action="hide">Close</button>
     </div>
 </div></div>
+
+<div id="dictionary-list-available-modal" class="modal" tabindex="-1" role="dialog" hidden><div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title">Available Dictionaries</div>
+    </div>
+    <div class="modal-body">
+        <div class="warning-text margin-above" hidden>No dictionaries are available.</div>
+        <div id="dictionary-list-available" class="dictionary-list generic-list" data-count="0"></div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" data-modal-action="hide">Close</button>
+    </div>
+</div>
 
 <div id="dictionary-confirm-delete-modal" class="modal" tabindex="-1" role="dialog" hidden><div class="modal-content modal-content-small">
     <div class="modal-header"><div class="modal-title">Confirm Dictionary Deletion</div></div>

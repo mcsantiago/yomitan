@@ -691,6 +691,71 @@ select.short-height {
     color: #8b0000;
 }
 
+/* Dictionary Addons */
+.extension-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 10px 10px;
+    padding: 15px;
+}
+
+.extension-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.extension-item-header-left,
+.extension-item-header-right {
+    display: flex;
+    align-items: center;
+}
+
+.extension-name {
+    font-size: 20px;
+    color: #333;
+    margin: 0;
+}
+
+.extension-author {
+    font-size: 14px;
+    color: #666;
+}
+
+.extension-version {
+    font-size: 10px;
+    color: #666;
+}
+
+.extension-item-body {
+    padding-bottom: 10px;
+}
+
+.extension-metadata {
+    display: flex;
+    justify-content: space-between; /* Adjust this as needed */
+    align-items: center;
+    flex-wrap: wrap; /* Allows items to wrap if not enough space */
+    margin: 0;
+    padding: 0;
+}
+
+.extension-metadata span {
+    margin: 0 10px; /* Adds spacing between items */
+    font-size: 14px;
+}
+
+.extension-metadata strong {
+    font-weight: bold;
+}
+
+.extension-item-footer {
+    text-align: right;
+}
+
 
 /* Advanced settings */
 .settings-group.advanced-only>.settings-item::after,
