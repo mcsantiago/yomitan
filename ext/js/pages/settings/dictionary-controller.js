@@ -21,6 +21,17 @@ import {log} from '../../core/logger.js';
 import {DictionaryWorker} from '../../dictionary/dictionary-worker.js';
 import {querySelectorNotNull} from '../../dom/query-selector.js';
 
+class DownloadableDictionaryEntry {
+    /**
+     * @param {DictionaryController} dictionaryController
+     * @param {DocumentFragment} fragment
+     * @param {number} index
+     * @param {import('dictionary-importer').Summary} dictionaryInfo
+     */
+    constructor(dictionaryController, fragment, index, dictionaryInfo) {
+    }
+}
+
 class DictionaryEntry {
     /**
      * @param {DictionaryController} dictionaryController

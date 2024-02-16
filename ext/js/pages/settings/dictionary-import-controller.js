@@ -23,6 +23,120 @@ import {DictionaryWorker} from '../../dictionary/dictionary-worker.js';
 import {querySelectorNotNull} from '../../dom/query-selector.js';
 import {DictionaryController} from './dictionary-controller.js';
 
+class GithubReleaseAsset {
+    /**
+     * @param {string} url
+     * @param {number} id
+     * @param {string} node_id
+     * @param {string} name
+     * @param {string} label
+     * @param {string} uploader
+     * @param {string} content_type
+     * @param {string} state
+     * @param {number} size
+     * @param {number} download_count
+     * @param {string} created_at
+     * @param {string} updated_at
+     * @param {string} browser_download_url
+     */
+    constructor(url, id, node_id, name, label, uploader, content_type, state, size, download_count, created_at, updated_at, browser_download_url) {
+        /* @type {string} */
+        this.url = url;
+        this._id = id;
+        this.node_id = node_id;
+        this.name = name;
+        this.label = label;
+        this._uploader = uploader;
+        this.content_type = content_type;
+        this.state = state;
+        this.size = size;
+        this.download_count = download_count;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.browser_download_url = browser_download_url;
+    }
+}
+
+export class DownloadableDictionaryManager {
+    /**
+     * @param {DictionaryImportController} dictionaryImportController
+     */
+    constructor(dictionaryImportController) {
+        this._downloadableDictionarySource = 'https://api.github.com/repos/themoeway/jmdict-yomitan/releases/latest';
+
+        this._dictionaryImportController = dictionaryImportController;
+    }
+
+    prepare() {
+        this.createDownloadableDictionaryEntries();
+    }
+
+    /**
+     * @returns {Promise<DownloadableDictionaryEntry[]>}
+     * @throws {ExtensionError}
+     */
+    async createDownloadableDictionaryEntries() {
+        const response = await fetch(this._downloadableDictionarySource);
+        if (!response.ok) {
+            throw new ExtensionError(`Failed to fetch dictionary info: ${response.status}`);
+        }
+        const data = await response.json();
+        /** @type {GithubReleaseAsset[]} */
+        const githubReleaseAssets = data.assets;
+        const version = data.tag_name;
+
+        // Assuming _createDownloadableDictionaryEntry is defined elsewhere and handles the DOM manipulation
+        githubReleaseAssets.forEach(asset => {
+            this._createDownloadableDictionaryEntry(asset, version);
+        });
+    }
+
+    /**
+     * @param {GithubReleaseAsset} asset
+     * @param {string} version
+     */
+    async _createDownloadableDictionaryEntry(asset, version) {
+        /** @type {HTMLElement} */
+        const container = document.getElementById('dictionary-addon-list'); 
+        console.log(asset);
+        const templateElement = document.getElementById('downloadable-dictionary-template');
+        if (templateElement instanceof HTMLTemplateElement) {
+            const template = templateElement.content.cloneNode(true);
+
+            // Populate the template with data from the asset
+            if (template instanceof DocumentFragment) {
+                template.querySelector('.dictionary-title').textContent = asset.name; // Adjusted for GitHub asset data
+                template.querySelector('.dictionary-version').textContent = version; // You might need to adjust how version is derived
+                template.querySelector('.dictionary-meta').innerHTML = `
+                    Size: <strong>${(asset.size / 1024 / 1024).toFixed(2)} MB</strong>, 
+                    Downloads: <strong>${asset.download_count}</strong>, 
+                    Updated: <strong>${new Date(asset.updated_at).toISOString().split('T')[0]}</strong>
+                `;
+                // Assuming 'asset' is your data object
+                const newButton = document.createElement('button');
+                newButton.textContent = 'Download'; // Set button text
+                newButton.classList.add('dictionary-download-button'); // Add class for styling
+                newButton.setAttribute('data-action', 'download'); // Set any data attributes if needed
+
+                // Attach event listener
+                newButton.addEventListener('click', () => {
+                    console.log('Download button clicked for asset: ', asset.name);
+                    console.log('Downloading from URL: ', asset.browser_download_url);
+                    // Assuming _dictionaryImportController is accessible here
+                    //this._dictionaryImportController.downloadDictionaryFromUrl(asset.browser_download_url);
+                });
+                template.appendChild(newButton);
+                // Append the filled template to the container
+                container.appendChild(document.importNode(template, true));
+            } else {
+                throw new ExtensionError('Failed to import the template content');
+            }
+        } else {
+            throw new ExtensionError('Failed to find the template element');
+        }
+    }
+}
+
 export class DictionaryImportController {
     /**
      * @param {import('./settings-controller.js').SettingsController} settingsController
@@ -71,6 +185,17 @@ export class DictionaryImportController {
         this._purgeConfirmButton.addEventListener('click', this._onPurgeConfirmButtonClick.bind(this), false);
         this._importFileButton.addEventListener('click', this._onImportButtonClick.bind(this), false);
         this._importFileInput.addEventListener('change', this._onImportFileChange.bind(this), false);
+    }
+
+    /**
+     * @param {string} url
+     */
+    async downloadDictionaryFromUrl(url) {
+        console.log('Downloading dictionary from URL: ', url);
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const file = new File([blob], 'dictionary.zip', {type: blob.type});
+        this._importDictionaries([file]);
     }
 
     // Private

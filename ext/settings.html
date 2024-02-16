@@ -2521,26 +2521,7 @@
                     </div>
                 </div>
             </div>
-            <div class="settings-item">
-                <div class="extension-item">
-                    <div class="extension-item-header">
-                        <div class="extension-item-header-left">
-                            <h3 class="extension-name">JMDict</h3>
-                            <span class="extension-author">by stephenmk</span>
-                        </div>
-                        <div class="extension-item-header-right">
-                            <button type="button" class="low-emphasis dictionary-database-mutating-input" id="dictionary-import-file-button">Download</button>
-                        </div>
-                    </div>
-                    <div class="extension-item-body">
-                        <div class="extension-metadata">
-                            <span>Version: <strong>v4.3-3</strong></span>
-                            <span>Size: <strong>27.63 MB</strong></span>
-                            <span>Download Count: <strong>57</strong></span>
-                            <span>Updated: <strong>2024-02-12</strong></span>
-                        </div>
-                    </div>
-                </div>
+            <div id="dictionary-addon-list" class="dictionary-list generic-list">
             </div>
         </div>
     </div>
@@ -2889,6 +2870,17 @@
     </div>
 </div></template>
 
+<template id="downloadable-dictionary-template">
+    <div class="downloadable-dictionary-item">
+        <div class="downloadable-dictionary-cell">
+            <span class="dictionary-info-label">
+                <strong class="dictionary-title"></strong> 
+                <span class="light dictionary-version"></span>
+            </span>
+            <span class="dictionary-meta"> </span>
+        </div>
+    </div>
+</template>
 
 <!-- Custom CSS modal -->
 <div id="custom-css-modal" class="modal modal-left" tabindex="-1" role="dialog" hidden><div class="modal-content-container1">
